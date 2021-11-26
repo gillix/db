@@ -1,0 +1,26 @@
+{
+  "name": "gillix/db",
+  "description": "DB query builder tool",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yury",
+      "email": "yury.timoschuk@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-pdo": "*",
+    "psr/log": "*"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "glx\\DB\\": "src/"
+    }
+  }
+}
