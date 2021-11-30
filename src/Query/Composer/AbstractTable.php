@@ -19,4 +19,9 @@ abstract class AbstractTable extends AbstractMappingElement
     {
         return self::$instance ?? (self::$instance =  new static());
     }
+
+    public function alias(): ?string
+    {
+        return $this->alias;
+    }
 }
