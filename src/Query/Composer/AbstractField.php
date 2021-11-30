@@ -28,12 +28,12 @@ abstract class AbstractField extends AbstractMappingElement implements FieldMapp
         return $this->table;
     }
 
-    public function select(QueryComposer $composer): array
+    public function select(): array
     {
         return [new Field($this->sourceField, $this->table()->alias(), $this->name())];
     }
 
-    public function filter(QueryComposer $composer, $value, string $operator, bool $include = true): array
+    public function filter($value, string $operator, bool $include = true): array
     {
         return [new Filter([
             'column' => $this->sourceField,
@@ -44,12 +44,12 @@ abstract class AbstractField extends AbstractMappingElement implements FieldMapp
         ], $this->table()->alias())];
     }
 
-    public function order(QueryComposer $composer, string $direction): array
+    public function order(string $direction): array
     {
         return [new Sort($this->sourceField, $direction)];
     }
 
-    public function group(QueryComposer $composer): array
+    public function group(): array
     {
         return [new Group($this->sourceField, $this->table()->alias())];
     }

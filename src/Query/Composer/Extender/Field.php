@@ -21,7 +21,7 @@ class Field extends NamedExtender
 
     public function name(): string
     {
-        return $this->alias ?: $this->qualified($this->field, $this->table);
+        return $this->alias ?: self::qualified($this->field, $this->table);
     }
 
     public function apply(Select $query): void
@@ -32,8 +32,8 @@ class Field extends NamedExtender
     protected function aliased(): string
     {
         if ($this->alias) {
-            return "{$this->qualified($this->field, $this->table)} AS {$this->alias}";
+            return self::qualified($this->field, $this->table) . " AS {$this->alias}";
         }
-        return $this->qualified($this->field, $this->table);
+        return self::qualified($this->field, $this->table);
     }
 }

@@ -33,12 +33,12 @@ class Filter extends NamedExtender
 
     public function name(): string
     {
-        return $this->name ?: $this->qualified($this->field, $this->table);
+        return $this->name ?: self::qualified($this->field, $this->table);
     }
 
     public function apply(Select $query): void
     {
-        $condition = cond($this->qualified($this->field, $this->table), $this->operator, $this->value);
+        $condition = cond(self::qualified($this->field, $this->table), $this->operator, $this->value);
         if(!$this->include) {
             $condition = new Not($condition);
         }

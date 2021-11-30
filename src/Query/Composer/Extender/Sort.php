@@ -29,11 +29,11 @@ class Sort extends NamedExtender
 
     public function name(): string
     {
-        return $this->qualified($this->by, $this->table);
+        return self::qualified($this->by, $this->table);
     }
 
     public function apply(Select $query): void
     {
-        $query->order($this->qualified($this->by, $this->table), $this->direction);
+        $query->order(self::qualified($this->by, $this->table), $this->direction);
     }
 }

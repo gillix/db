@@ -19,12 +19,12 @@ class Group extends NamedExtender
 
     public function name(): string
     {
-        return $this->qualified($this->field, $this->table);
+        return self::qualified($this->field, $this->table);
     }
 
     public function apply(Select $query): void
     {
-        $query->group($this->qualified($this->field, $this->table));
+        $query->group(self::qualified($this->field, $this->table));
     }
 
 

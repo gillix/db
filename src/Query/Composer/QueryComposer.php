@@ -9,15 +9,22 @@ use glx\DB\Query\Composer\I\QueryExtender;
 use glx\DB\Query\Composer\I\TableMappingInterface;
 use glx\DB\Query\I\Select;
 
-class QueryComposer implements QueryComposerInterface
+abstract class QueryComposer implements QueryComposerInterface
 {
     protected array $build;
     /** @var QueryExtender[] $extenders */
     protected array $extenders = [];
+    protected array $fieldsMap;
 
-    public function __construct(array $options)
+
+    /**
+     * @param array $options
+     * @param array<string, FieldMappingInterface> $fieldsMap
+     */
+    public function __construct(array $options, array $fieldsMap = [])
     {
         $this->build = $options;
+        $this->fieldsMap = $fieldsMap;
     }
 
     public function compose(Select $query): Select
@@ -47,9 +54,9 @@ class QueryComposer implements QueryComposerInterface
         } elseif($object instanceof QueryExtender) {
             return [$object];
         }
-//        if(is_string($object)) {
-//            $object = $this->available($object);
-//        }
+        if(is_string($object)) {
+            $object = $this->fieldsMap[$object];
+        }
         if(!$object instanceof MappingElement) {
             return [];
         }

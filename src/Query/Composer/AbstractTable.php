@@ -3,13 +3,13 @@
 namespace glx\DB\Query\Composer;
 
 use glx\DB\Query\Composer\Extender\Qualifier;
+use glx\DB\Query\Composer\I\TableMappingInterface;
 
-abstract class AbstractTable extends AbstractMappingElement
+abstract class AbstractTable extends AbstractMappingElement implements TableMappingInterface
 {
     use Qualifier;
 
     protected ?string $alias;
-    protected static self $instance;
 
     public function __construct(string $name, string $alias = null)
     {
@@ -19,11 +19,6 @@ abstract class AbstractTable extends AbstractMappingElement
 
     abstract public function join(QueryComposer $composer): array;
 
-    public static function instance(): self
-    {
-        return self::$instance ?? (self::$instance =  new static());
-    }
-
     public function alias(): ?string
     {
         return $this->alias;
@@ -32,6 +27,11 @@ abstract class AbstractTable extends AbstractMappingElement
     public static function qualify(string $field): string
     {
         $table = self::instance();
-        return $table->qualified($field, $table->alias());
+        return self::qualified($field, $table->alias());
+    }
+
+    public static function field(string $field): string
+    {
+        return self::qualify($field);
     }
 }
