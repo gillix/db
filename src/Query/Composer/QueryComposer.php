@@ -9,7 +9,7 @@ use glx\DB\Query\Composer\I\QueryExtender;
 use glx\DB\Query\Composer\I\TableMappingInterface;
 use glx\DB\Query\I\Select;
 
-abstract class QueryComposer implements QueryComposerInterface
+class QueryComposer implements QueryComposerInterface
 {
     protected array $build;
     /** @var QueryExtender[] $extenders */

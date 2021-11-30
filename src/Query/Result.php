@@ -2,24 +2,12 @@
 
 namespace glx\DB\Query;
 
-use glx\Common;
-
-class Result extends Common\Collection implements I\Result
+class Result extends \ArrayObject implements I\Result
 {
-    protected Common\I\Stopwatch $timer;
 
-    public function __construct(array $array, Common\I\Stopwatch $timer = null)
+    public function array(): array
     {
-        if ($timer) {
-            $timer->finish();
-            $this->timer = $timer;
-        }
-        parent::__construct($array);
-    }
-
-    public function stat(): array
-    {
-        return isset($this->timer) ? $this->timer->stat() : [];
+        return $this->getArrayCopy();
     }
 
     // TODO: возможно пребразование значений в нужный тип "на лету" (как узнать нужный тип?)

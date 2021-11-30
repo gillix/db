@@ -73,4 +73,3 @@ class Driver extends DB\pdoDriver
     }
 }
 
-DB\Connection::registerDriver('mysql', Driver::class);

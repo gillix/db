@@ -2,9 +2,6 @@
 
 namespace glx\DB\Query\I;
 
-use glx\Common\I\Collection;
-
-interface Result extends Collection
+interface Result
 {
-    public function stat(): array;
 }

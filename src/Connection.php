@@ -2,14 +2,11 @@
 
 namespace glx\DB;
 
-use DirectoryIterator;
-use glx\DB\E\DBException;
 use glx\DB\E\InvalidArgument;
 use glx\DB\Query;
 
 class Connection implements I\Connection, I\Queryable
 {
-    protected static array $drivers = [];
     protected static string $defaultDriver = 'mysql';
     protected I\Driver $driver;
 

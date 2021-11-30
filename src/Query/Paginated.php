@@ -2,8 +2,6 @@
 
 namespace glx\DB\Query;
 
-use glx\Common;
-
 class Paginated extends Result implements I\Paginated
 {
     public const DEFAULT_PER_PAGE = 20;
@@ -15,13 +13,12 @@ class Paginated extends Result implements I\Paginated
         array &$array,
         $total,
         $page = 1,
-        $perPage = self::DEFAULT_PER_PAGE,
-        Common\I\Stopwatch $time = null
+        $perPage = self::DEFAULT_PER_PAGE
     ) {
         $this->total = $total;
         $this->page = $page;
         $this->perPage = $perPage;
-        parent::__construct($array, $time);
+        parent::__construct($array);
     }
 
     public function total(): int

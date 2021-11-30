@@ -3,7 +3,7 @@
 namespace glx\DB\Query;
 
 use Closure;
-use glx\Common;
+//use glx\Common;
 use PDO;
 use PDOStatement;
 
@@ -27,9 +27,9 @@ class Select extends Joinable implements I\Select
 
             return $new->get();
         }
-        $stopwatch = Common\Stopwatch::start();
+//        $stopwatch = Common\Stopwatch::start();
 
-        return new Result($this->fetch($callback, $stopwatch), $stopwatch);
+        return new Result($this->fetch($callback));
     }
 
     public function column($column = null): I\Result
@@ -43,23 +43,17 @@ class Select extends Joinable implements I\Select
         });
     }
 
-    protected function fetch($callback = null, Common\I\Stopwatch $stopwatch = null)
+    protected function fetch($callback = null)
     {
         [$sql, $values] = $this->compile();
 
 //      if($callback instanceof \Closure)
-        $result = $this->connection->perform(function ($query, $values) use ($callback, $stopwatch) {
+        $result = $this->connection->perform(function ($query, $values) use ($callback) {
             $stmt = $this->connection->prepare($query);
-            if ($stopwatch) {
-                $stopwatch->tick('preparation');
-            }
             if ($values) {
                 $this->connection::bind($stmt, $values);
             }
             $stmt->execute();
-            if ($stopwatch) {
-                $stopwatch->tick('execution');
-            }
             if ($callback instanceof Closure) {
                 return $callback($stmt);
             }
@@ -81,17 +75,14 @@ class Select extends Joinable implements I\Select
     public function page($page, $pp = Paginated::DEFAULT_PER_PAGE, $callback = null): I\Paginated
     {
         // TODO: move aggregate functions to the separate unit for wide db compatibility
-        $stopwatch = Common\Stopwatch::start();
         $countable = $this->without(['select', 'order', 'limit', 'offset']);
         if ($countable->units['group']) {
             $countable = $countable->new()->from($countable->select('COUNT(*)'), 'c');
         }
         $total = $countable->value('COUNT(*)');
-        $stopwatch->tick('count');
-        $result = $this->offset(($page - 1) * $pp)->limit($pp)->fetch($callback, $stopwatch);
-        $stopwatch->tick('execution');
+        $result = $this->offset(($page - 1) * $pp)->limit($pp)->fetch($callback);
 
-        return new Paginated($result, $total, $page, $pp, $stopwatch);
+        return new Paginated($result, $total, $page, $pp);
     }
 
     public function from($table, string $alias = null): I\Select
@@ -121,24 +112,21 @@ class Select extends Joinable implements I\Select
 
     public function aggregated(array $columns, $page, $pp = null, $callback = null): I\Aggregated
     {
-        $stopwatch = Common\Stopwatch::start();
         foreach ($columns as $name => $function) {
             $columns[$name] = "$function($name) AS $name";
         }
         $columns['total'] = 'COUNT(*) AS total';
         $aggregates = $this->new()->from($this->without(['order', 'limit', 'offset']), 'a')->select($columns)->one();
-        $stopwatch->tick('aggregates');
-        $result = $this->offset(($page - 1) * $pp)->limit($pp)->fetch($callback, $stopwatch);
+        $result = $this->offset(($page - 1) * $pp)->limit($pp)->fetch($callback);
 
-        return new Aggregated($result, $aggregates->array(), $page, $pp, $stopwatch);
+        return new Aggregated($result, $aggregates->array(), $page, $pp);
     }
 
     public function one(): I\Result
     {
-        $stopwatch = Common\Stopwatch::start();
-        $result = $this->limit(1)->fetch(fn(PDOStatement $stmt) => $stmt->fetch(PDO::FETCH_ASSOC) ?: [], $stopwatch);
+        $result = $this->limit(1)->fetch(fn(PDOStatement $stmt) => $stmt->fetch(PDO::FETCH_ASSOC) ?: []);
 
-        return new Result($result, $stopwatch);
+        return new Result($result);
     }
 
     public function object($class = null, $args = null)
