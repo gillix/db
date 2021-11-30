@@ -2,8 +2,12 @@
 
 namespace glx\DB\Query\Composer;
 
+use glx\DB\Query\Composer\Extender\Qualifier;
+
 abstract class AbstractTable extends AbstractMappingElement
 {
+    use Qualifier;
+
     protected ?string $alias;
     protected static self $instance;
 
@@ -23,5 +27,11 @@ abstract class AbstractTable extends AbstractMappingElement
     public function alias(): ?string
     {
         return $this->alias;
+    }
+
+    public static function qualify(string $field): string
+    {
+        $table = self::instance();
+        return $table->qualified($field, $table->alias());
     }
 }
