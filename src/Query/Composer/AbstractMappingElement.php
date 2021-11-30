@@ -16,9 +16,9 @@ abstract class AbstractMappingElement implements MappingElement
         $this->dependencies = [];
     }
 
-    public static function instance(): self
+    public static function instance(...$args): self
     {
-        return self::$instance ?? (self::$instance =  new static());
+        return self::$instance ?? (self::$instance =  new static(...$args));
     }
 
     public function depends(string $part, MappingElement $element): void

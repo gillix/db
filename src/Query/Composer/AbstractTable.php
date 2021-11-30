@@ -17,7 +17,7 @@ abstract class AbstractTable extends AbstractMappingElement implements TableMapp
         $this->alias = $alias;
     }
 
-    abstract public function join(QueryComposer $composer): array;
+    abstract public function join(): array;
 
     public function alias(): ?string
     {
