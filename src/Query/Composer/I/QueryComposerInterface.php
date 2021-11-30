@@ -12,7 +12,7 @@ interface QueryComposerInterface
     public const ORDER = 'order';
     public const GROUP = 'group';
 
-    public function query(Select $query = null): Select;
+    public function compose(Select $query): Select;
 
     public function join(TableMappingInterface $table): void;
     public function select(FieldMappingInterface $field): void;
