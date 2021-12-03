@@ -15,8 +15,8 @@ class Field extends NamedExtender
     public function __construct(string $field, string $table = null, string $alias = null)
     {
         $this->field = $field;
-        $this->table = $table;
-        $this->alias = $alias;
+        $this->table = $table ?? '';
+        $this->alias = $alias ?? '';
     }
 
     public function name(): string

@@ -17,7 +17,7 @@ class Filter extends NamedExtender
     protected string $field;
     protected string $name;
     protected bool $include = true;
-    protected string $table;
+    protected ?string $table;
     protected bool $having = false;
 
     public function __construct(array $options, string $table = NULL)
