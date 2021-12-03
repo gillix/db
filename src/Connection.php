@@ -19,7 +19,7 @@ class Connection implements I\Connection, I\Queryable
         // TODO: add ability to specify write connection separately
 
         $driver = $options['driver'] ?? self::$defaultDriver;
-        $driverClass = "\glx\DB\Drivers\{$driver}\Driver";
+        $driverClass = "\glx\DB\Drivers\\$driver\Driver";
         if (!class_exists($driverClass)) {
             throw new InvalidArgument("DB driver {$driver} is not supported");
         }
