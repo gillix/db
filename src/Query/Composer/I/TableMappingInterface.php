@@ -7,4 +7,6 @@ interface TableMappingInterface extends MappingElement
     public function alias(): ?string;
 
     public function join();
+
+    public static function instance(...$args): self;
 }

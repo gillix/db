@@ -17,7 +17,7 @@ abstract class AbstractTable extends AbstractMappingElement implements TableMapp
         $this->alias = $alias;
     }
 
-    public static function instance(): self
+    public static function instance(...$args): self
     {
         throw new \RuntimeException("Abstract class cannot be instantiated, use trait Singleton in the table mapper class");
     }
