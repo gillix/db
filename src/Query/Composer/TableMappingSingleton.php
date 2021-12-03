@@ -8,12 +8,12 @@ trait TableMappingSingleton
 {
     protected static TableMappingInterface $instance;
 
-    public static function instance(...$args): TableMappingInterface
+    public static function instance(): TableMappingInterface
     {
         if (isset(self::$instance)) {
             return self::$instance;
         }
-        $instance =  new static(...$args);
+        $instance =  new static();
         if (!$instance instanceof TableMappingInterface) {
             throw new \Exception("Use this singleton trait in TableMappingInterface only");
         }
