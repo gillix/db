@@ -17,5 +17,6 @@ trait TableMappingSingleton
         if (!$instance instanceof TableMappingInterface) {
             throw new \Exception("Use this singleton trait in TableMappingInterface only");
         }
+        return $instance;
     }
 }
