@@ -32,10 +32,14 @@ class Join extends NamedExtender
 
     public function apply(Select $query): void
     {
-        $query->join(
-            $this->alias ? [$this->table, $this->alias] : $this->table,
-            $this->on,
-            $this->left ? 'left' : 'inner'
-        );
+        if ($this->on === null) {
+            $query->from($this->table, $this->alias);
+        } else {
+            $query->join(
+                $this->alias ? [$this->table, $this->alias] : $this->table,
+                $this->on,
+                $this->left ? 'left' : 'inner'
+            );
+        }
     }
 }
