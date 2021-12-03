@@ -17,6 +17,11 @@ abstract class AbstractTable extends AbstractMappingElement implements TableMapp
         $this->alias = $alias;
     }
 
+    public static function instance(): self
+    {
+        throw new \RuntimeException("Abstract class cannot be instantiated, use trait Singleton in the table mapper class");
+    }
+
     abstract public function join(): array;
 
     public function alias(): ?string
@@ -26,8 +31,8 @@ abstract class AbstractTable extends AbstractMappingElement implements TableMapp
 
     public static function qualify(string $field): string
     {
-        $table = self::instance();
-        return self::qualified($field, $table->alias());
+        $table = static::instance();
+        return self::qualified($field, $table->alias() ?? $table->name());
     }
 
     public static function field(string $field): string

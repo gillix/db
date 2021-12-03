@@ -8,17 +8,11 @@ abstract class AbstractMappingElement implements MappingElement
 {
     protected string $name;
     protected array $dependencies;
-    protected static self $instance;
 
     public function __construct(string $name)
     {
         $this->name = $name;
         $this->dependencies = [];
-    }
-
-    public static function instance(...$args): self
-    {
-        return self::$instance ?? (self::$instance =  new static(...$args));
     }
 
     public function depends(string $part, MappingElement $element): void
