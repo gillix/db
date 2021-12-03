@@ -10,13 +10,16 @@ class Connection implements I\Connection, I\Queryable
     protected static string $defaultDriver = 'mysql';
     protected I\Driver $driver;
 
+    /**
+     * @throws InvalidArgument
+     */
     public function __construct(array $options)
     {
         // TODO: add ability to specify connection url
         // TODO: add ability to specify write connection separately
 
         $driver = $options['driver'] ?? self::$defaultDriver;
-        $driverClass = "\glx\DB\{$driver}\Driver";
+        $driverClass = "\glx\DB\Drivers\{$driver}\Driver";
         if (!class_exists($driverClass)) {
             throw new InvalidArgument("DB driver {$driver} is not supported");
         }
