@@ -12,7 +12,7 @@ use glx\DB\Query\Composer\I\TableMappingInterface;
 
 abstract class AbstractField extends AbstractMappingElement implements FieldMappingInterface
 {
-    protected string $table;
+    protected TableMappingInterface $table;
     protected ?string $sourceField;
 
     public function __construct(string $name, TableMappingInterface $table, string $sourceField = null)
