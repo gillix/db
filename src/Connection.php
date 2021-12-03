@@ -23,7 +23,7 @@ class Connection implements I\Connection, I\Queryable
         if (!class_exists($driverClass)) {
             throw new InvalidArgument("DB driver {$driver} is not supported");
         }
-        $this->driver = new $driver($options);
+        $this->driver = new $driverClass($options);
     }
 
     public function connect(): void
