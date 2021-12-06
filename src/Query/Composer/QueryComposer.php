@@ -47,9 +47,9 @@ class QueryComposer implements QueryComposerInterface
 
     protected function fetch($part, $object): array
     {
-        $args = [$this];
+        $args = [];
         if(is_array($object)) {
-            $args = array_merge($args, $object['arguments'] ?? $object[1] ?? []);
+            $args = $object['arguments'] ?? $object[1] ?? [];
             $object = $object['object'] ?: $object[0];
         } elseif($object instanceof QueryExtender) {
             return [$object];
