@@ -24,7 +24,7 @@ class Filter extends NamedExtender
     {
         $this->field = $options['column'] ?? $options[0];
         $this->value = $options['value'] ?? $options[1];
-        $this->operator = $this->$options['operator'] ?? $options[2] ?: 'default';
+        $this->operator = $options['operator'] ?? $options[2] ?: 'default';
         $this->include = (bool)($options['include'] ?? $options[3] ?? $this->include);
         $this->table = $table ?? '';
         $this->having = $options['having'] ?? $options[4] ?? $this->having;
