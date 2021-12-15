@@ -75,7 +75,7 @@ class Select extends Joinable implements I\Select
     public function page($page, $pp = Paginated::DEFAULT_PER_PAGE, $callback = null): I\Paginated
     {
         // TODO: move aggregate functions to the separate unit for wide db compatibility
-        $countable = $this->without(['select', 'order', 'limit', 'offset']);
+        $countable = $this->without(['columns', 'order', 'limit', 'offset']);
         if ($countable->units['group']) {
             $countable = $countable->new()->from($countable->select('COUNT(*)'), 'c');
         }
