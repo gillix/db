@@ -14,10 +14,9 @@ class QueryPerformingFailed extends DBException
         array $values,
         $message = '',
         $code = 0,
-        Throwable $previous = null,
-        string $content = null
+        Throwable $previous = null
     ) {
-        parent::__construct($message, $code, $previous, $content);
+        parent::__construct($message, $code, $previous);
         $this->query = $query;
         $this->values = $values;
     }
