@@ -96,7 +96,7 @@ abstract class UnitsCompiler implements I\UnitsCompiler
     protected function resolve(Query\I\ConditionExpression $expr): string
     {
         if ($expr instanceof Query\I\Sequence) {
-            return $this->sequence($expr);
+            return "({$this->sequence($expr)})";
         }
         if ($expr instanceof Query\I\Condition) {
             return $this->condition($expr->name(), $expr->operator(), $expr->value());
