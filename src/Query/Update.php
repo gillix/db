@@ -2,6 +2,9 @@
 
 namespace glx\DB\Query;
 
+use glx\DB\E\ConnectionFailed;
+use glx\DB\E\QueryPerformingFailed;
+
 class Update extends Joinable implements I\Update
 {
     use Query;
@@ -25,6 +28,10 @@ class Update extends Joinable implements I\Update
         return parent::table($table, $alias);
     }
 
+    /**
+     * @throws QueryPerformingFailed
+     * @throws ConnectionFailed
+     */
     public function perform(): int
     {
         [$sql, $values] = $this->compile();

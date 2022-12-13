@@ -19,14 +19,14 @@ abstract class Searchable extends Builder implements I\Searchable
         return new WhereClause($this, $this->units['where']);
     }
 
-    public function order($by, $direction = null): I\Searchable
+    public function order(string $by, $direction = null): I\Searchable
     {
         $this->units['order'][$by] = $direction ?? 'asc';
 
         return $this;
     }
 
-    public function limit(int $count, int $offset = null): I\Searchable
+    public function limit(int $count, int $offset = null): I\Searchable | I\Select
     {
         $this->units['limit'] = $count;
         if ($offset !== null) {
@@ -36,7 +36,7 @@ abstract class Searchable extends Builder implements I\Searchable
         return $this;
     }
 
-    public function offset(int $offset): I\Searchable
+    public function offset(int $offset): I\Searchable | I\Select
     {
         $this->units['offset'] = $offset;
 

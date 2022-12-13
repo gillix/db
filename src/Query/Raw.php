@@ -41,7 +41,7 @@ class Raw implements I\ConditionExpression
     }
 }
 
-function raw(string $raw, ...$values)
+function raw(string $raw, ...$values): Raw
 {
     return new Raw($raw, ...$values);
 }

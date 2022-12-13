@@ -29,42 +29,42 @@ interface Fetching
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function value($column = null);
+    public function value($column = null): mixed;
 
     /**
      * @param array $columns
-     * @param $page
-     * @param null $pp
+     * @param int $page
+     * @param int|null $pp
      * @return Aggregated
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function aggregated(array $columns, $page, $pp = null): Aggregated;
+    public function aggregated(array $columns, int $page, int $pp = null): Aggregated;
 
     /**
-     * @param $page
-     * @param null $pp
+     * @param int $page
+     * @param int|null $pp
      * @return Paginated
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function page($page, $pp = null): Paginated;
+    public function page(int $page, int $pp = null): Paginated;
 
     /**
-     * @param null $index
+     * @param string|int|null $column
      * @return Result
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function column($index = null): Result;
+    public function column(string|int $column = null): Result;
 
     /**
-     * @param null $class
+     * @param class-string | null $class
      * @param null $args
      * @return mixed
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function object($class = null, $args = null);
+    public function object(string $class = null, $args = null): mixed;
     // TODO: + key pair
 }

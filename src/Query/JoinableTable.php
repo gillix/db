@@ -21,17 +21,17 @@ class JoinableTable extends Joinable implements I\JoinableTable
         return Select::createFrom($this)->page($page, $pp);
     }
 
-    public function column($index = null): I\Result
+    public function column($column = null): I\Result
     {
-        return Select::createFrom($this)->column($index);
+        return Select::createFrom($this)->column($column);
     }
 
-    public function object($class = null, $args = null)
+    public function object(string $class = null, array $args = null): mixed
     {
         return Select::createFrom($this)->object($class, $args);
     }
 
-    public function update($name, $value = null): int
+    public function update(array|string $name, mixed $value = null): int
     {
         return Update::createFrom($this)->set($name, $value)->perform();
     }

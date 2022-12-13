@@ -4,9 +4,10 @@ namespace glx\DB;
 
 use Closure;
 use glx\DB;
+use glx\DB\E\ConnectionFailed;
 use glx\DB\E\DBException;
 use glx\DB\E\QueryPerformingFailed;
-use glx\DB\Query\Query;
+use glx\DB\Query\I\Query;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -55,13 +56,13 @@ abstract class pdoDriver implements I\Driver
     }
 
     /**
-     * @param $query
+     * @param Query|string $query
      * @param array|null $values
      * @return mixed
-     * @throws E\ConnectionFailed
-     * @throws E\QueryPerformingFailed
+     * @throws ConnectionFailed
+     * @throws QueryPerformingFailed
      */
-    public function execute($query, ?array $values = null)
+    public function execute(Query|string $query, ?array $values = null): mixed
     {
         return $this->perform(function ($query, $values) {
             $stmt = $this->prepare($query);
@@ -84,10 +85,10 @@ abstract class pdoDriver implements I\Driver
      * @return mixed
      * @throws E\ConnectionFailed|E\QueryPerformingFailed
      */
-    public function perform(Closure $execute, $query, ?array $values = null)
+    public function perform(Closure $execute, Query|string $query, ?array $values = null): mixed
     {
         $this->connect();
-        if ($query instanceof DB\Query\I\Query) {
+        if ($query instanceof Query) {
             [$query, $values] = $query->compile();
         }
         try {
@@ -152,14 +153,14 @@ abstract class pdoDriver implements I\Driver
     }
 
     /**
-     * @param $query
+     * @param Query|string $query
      * @param array|null $values
      * @param null $fetch
      * @return mixed
-     * @throws E\ConnectionFailed
-     * @throws E\QueryPerformingFailed
+     * @throws ConnectionFailed
+     * @throws QueryPerformingFailed
      */
-    public function query($query, ?array $values = null, $fetch = null)
+    public function query(Query|string $query, ?array $values = null, $fetch = null): mixed
     {
         return $this->perform(function ($query, $values) use ($fetch) {
             $stmt = $this->prepare($query);

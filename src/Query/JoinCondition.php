@@ -7,12 +7,12 @@ class JoinCondition implements I\JoinCondition
 {
     protected array $condition;
 
-    public function init($condition, string $type = 'on')
+    public function init($condition, string $type = 'on'): void
     {
         $this->condition = ['type' => $type, 'condition' => $condition];
     }
 
-    public function inited(): bool
+    public function initialized(): bool
     {
         return isset($this->condition);
     }

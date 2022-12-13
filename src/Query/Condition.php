@@ -7,7 +7,7 @@ class Condition implements I\Condition
 {
     protected string $name;
     protected string $operator;
-    protected $value;
+    protected mixed $value;
 
     public function __construct($name, $operator = null, $value = null)
     {
@@ -61,7 +61,7 @@ class Condition implements I\Condition
     /**
      * @return mixed
      */
-    public function value()
+    public function value(): mixed
     {
         return $this->value;
     }

@@ -4,6 +4,8 @@ namespace glx\DB\Query;
 
 use Closure;
 //use glx\Common;
+use glx\DB\E\ConnectionFailed;
+use glx\DB\E\QueryPerformingFailed;
 use PDO;
 use PDOStatement;
 
@@ -11,6 +13,10 @@ class Select extends Joinable implements I\Select
 {
     use Query;
 
+    /**
+     * @throws ConnectionFailed
+     * @throws QueryPerformingFailed
+     */
     public function get($callback = null): I\Result
     {
         // We need to select a specified column
@@ -32,23 +38,27 @@ class Select extends Joinable implements I\Select
         return new Result($this->fetch($callback));
     }
 
-    public function column($column = null): I\Result
+    public function column(int|string $column = null): I\Result
     {
         if ($column && is_string($column)) {
             return $this->get($column);
         }
 
-        return $this->get(static function (PDOStatement $stmt) use ($column) {
-            return $stmt->fetchAll(PDO::FETCH_COLUMN, is_int($column) ? $column : 0);
-        });
+        return $this->get(
+            static fn(PDOStatement $stmt) =>
+                $stmt->fetchAll(PDO::FETCH_COLUMN, is_int($column) ? $column : 0)
+        );
     }
 
-    protected function fetch($callback = null)
+    /**
+     * @throws QueryPerformingFailed
+     */
+    protected function fetch(callable|array|int $callback = null)
     {
         [$sql, $values] = $this->compile();
 
 //      if($callback instanceof \Closure)
-        $result = $this->connection->perform(function ($query, $values) use ($callback) {
+        $result = $this->connection->perform(function (Query|string $query, $values) use ($callback) {
             $stmt = $this->connection->prepare($query);
             if ($values) {
                 $this->connection::bind($stmt, $values);
@@ -72,7 +82,7 @@ class Select extends Joinable implements I\Select
         return $this->compiler->select($this->units);
     }
 
-    public function page($page, $pp = Paginated::DEFAULT_PER_PAGE, $callback = null): I\Paginated
+    public function page(int $page, $pp = Paginated::DEFAULT_PER_PAGE, $callback = null): I\Paginated
     {
         // TODO: move aggregate functions to the separate unit for wide db compatibility
         $countable = $this->without(['columns', 'order', 'limit', 'offset']);
@@ -97,7 +107,7 @@ class Select extends Joinable implements I\Select
         return $this;
     }
 
-    public function value($column = null)
+    public function value($column = null): mixed
     {
         if ($column) {
             $new = self::createFrom($this);
@@ -129,14 +139,14 @@ class Select extends Joinable implements I\Select
         return new Result($result);
     }
 
-    public function object($class = null, $args = null)
+    public function object($class = null, $args = null): mixed
     {
         return $this->limit(1)->fetch(static function (PDOStatement $stmt) use ($class, $args) {
             return $stmt->fetchObject(...array_filter([$class ?? 'stdClass', $args]));
         });
     }
 
-    public function having($name, $operator = null, $value = null): I\WhereClause
+    public function having($name, $operator = null, $value = null): I\WhereClause | I\Select
     {
         $expr = Condition::fetch($name, $operator, $value);
         if (!isset($this->units['having'])) {

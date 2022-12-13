@@ -4,6 +4,8 @@ namespace glx\DB\Query;
 
 
 use glx\DB;
+use glx\DB\E\ConnectionFailed;
+use glx\DB\E\QueryPerformingFailed;
 
 /**
  * @method int delete(array $where = null)
@@ -30,6 +32,10 @@ class Table extends Builder implements I\Table
         }
     }
 
+    /**
+     * @throws QueryPerformingFailed
+     * @throws ConnectionFailed
+     */
     public function insert($fields): int
     {
         $insert = Insert::createFrom($this);

@@ -3,6 +3,8 @@
 namespace glx\DB\Query;
 
 use glx\DB;
+use glx\DB\E\ConnectionFailed;
+use glx\DB\E\QueryPerformingFailed;
 
 /**
  * @method int update($name, $value = null)
@@ -32,7 +34,11 @@ class SearchableTable extends Searchable implements I\SearchableTable
         }
     }
 
-    public function delete(array $where = null): int
+    /**
+     * @throws QueryPerformingFailed
+     * @throws ConnectionFailed
+     */
+    public function delete(array|I\ConditionExpression $where = null): int
     {
         $query = Delete::createFrom($this);
         if ($where !== null) {

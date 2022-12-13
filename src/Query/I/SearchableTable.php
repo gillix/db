@@ -2,6 +2,9 @@
 
 namespace glx\DB\Query\I;
 
+use glx\DB\E\ConnectionFailed;
+use glx\DB\E\QueryPerformingFailed;
+
 /**
  * @method int update($name, $value = null)
  * @method Select select(...$columns)
@@ -21,5 +24,9 @@ namespace glx\DB\Query\I;
  */
 interface SearchableTable extends Searchable
 {
-    public function delete(array $where = null): int;
+    /**
+     * @throws QueryPerformingFailed
+     * @throws ConnectionFailed
+     */
+    public function delete(array | ConditionExpression $where = null): int;
 }

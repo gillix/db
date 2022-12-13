@@ -5,6 +5,6 @@ namespace glx\DB\Query\I;
 
 interface QueryClause
 {
-    public function target();
+    public function target(): mixed;
 }
  

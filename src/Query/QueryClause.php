@@ -5,14 +5,14 @@ namespace glx\DB\Query;
 
 class QueryClause implements I\QueryClause
 {
-    protected $target;
+    protected mixed $target;
 
-    public function __construct($target)
+    public function __construct(mixed $target)
     {
         $this->target = $target;
     }
 
-    public function target()
+    public function target(): mixed
     {
         return $this->target;
     }

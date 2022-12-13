@@ -35,10 +35,13 @@ class JoinClause extends QueryClause implements I\JoinClause
         $this->cond = $cond;
     }
 
+    /**
+     * @throws DBException
+     */
     public function on($name, $operator = null, $value = null): I\WhereClause
     {
         $on = cond($name, $operator, $value);
-        if ($this->cond->inited() && ($cond = $this->cond->condition())) {
+        if ($this->cond->initialized() && ($cond = $this->cond->condition())) {
             if ($cond['type'] === 'on') {
                 ($seq = $cond['condition'])->add($on);
             } else {
@@ -51,10 +54,13 @@ class JoinClause extends QueryClause implements I\JoinClause
         return new WhereClause($this->target, $seq);
     }
 
+    /**
+     * @throws DBException
+     */
     public function using($field): I\Joinable
     {
         $field = (array)$field;
-        if ($this->cond->inited() && ($cond = $this->cond->condition())) {
+        if ($this->cond->initialized() && ($cond = $this->cond->condition())) {
             if ($cond['type'] === 'using') {
                 $cond['condition'] = array_merge($cond['condition'], $field);
             } else {
