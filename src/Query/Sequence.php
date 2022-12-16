@@ -48,28 +48,3 @@ class Sequence implements I\Sequence
         return $this->add(cond($name, $operator, $value));
     }
 }
-
-function _or_(...$entries): I\Sequence
-{
-    $seq = seq();
-    foreach ($entries as $i => $entry) {
-        if (is_array($entry)) {
-            $entry = cond($entry);
-        } elseif (!$entry instanceof I\ConditionExpression) {
-            continue;
-        }
-        $seq->add($entry, 'or');
-    }
-
-    return $seq;
-}
-
-function _and_(...$entries): I\Sequence
-{
-    return seq(...$entries);
-}
-
-function seq(...$entries): I\Sequence
-{
-    return new Sequence(...$entries);
-}

@@ -77,15 +77,3 @@ class Condition implements I\Condition
     }
 
 }
-
-function cond($name, $operator = null, $value = null): I\ConditionExpression
-{
-    if ($name instanceof I\ConditionExpression) {
-        return $name;
-    }
-    if (is_string($name) && $operator === null && $value === null) {
-        return raw($name);
-    }
-
-    return new Condition($name, $operator, $value);
-}

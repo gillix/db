@@ -40,8 +40,3 @@ class Raw implements I\ConditionExpression
         return _and_($this, cond($name, $operator, $value));
     }
 }
-
-function raw(string $raw, ...$values): Raw
-{
-    return new Raw($raw, ...$values);
-}

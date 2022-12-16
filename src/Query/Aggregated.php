@@ -2,8 +2,6 @@
 
 namespace glx\DB\Query;
 
-use glx\Common;
-
 class Aggregated extends Paginated implements I\Aggregated
 {
     protected array $aggregated;
@@ -13,10 +11,9 @@ class Aggregated extends Paginated implements I\Aggregated
         array $aggregated,
         $page = 1,
         $perPage = Paginated::DEFAULT_PER_PAGE,
-        Common\I\Stopwatch $time = null
     ) {
         $this->aggregated = $aggregated;
-        parent::__construct($array, $aggregated['total'], $page, $perPage, $time);
+        parent::__construct($array, $aggregated['total'], $page, $perPage);
     }
 
     public function aggregated(string $field)
