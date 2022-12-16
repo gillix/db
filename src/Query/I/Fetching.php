@@ -60,11 +60,11 @@ interface Fetching
 
     /**
      * @param class-string | null $class
-     * @param null $args
+     * @param array|null $args
      * @return mixed
      * @throws ConnectionFailed
      * @throws QueryPerformingFailed
      */
-    public function object(string $class = null, $args = null): mixed;
+    public function object(string $class = null, array $args = null): mixed;
     // TODO: + key pair
 }

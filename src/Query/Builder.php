@@ -60,9 +60,9 @@ abstract class Builder
                 }
 
                 return $this;
-            } else {
-                return $this->from(...$table);
             }
+
+            return $this->from(...$table);
         }
 
         $table = ['table' => $table];
