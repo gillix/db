@@ -2,8 +2,6 @@
 
 namespace glx\DB\Query;
 
-require_once 'Sequence.php';
-
 abstract class Searchable extends Builder implements I\Searchable
 {
 
@@ -19,7 +17,7 @@ abstract class Searchable extends Builder implements I\Searchable
         return new WhereClause($this, $this->units['where']);
     }
 
-    public function order(string $by, $direction = null): I\Searchable
+    public function order(string $by, string $direction = null): I\Searchable
     {
         $this->units['order'][$by] = $direction ?? 'asc';
 

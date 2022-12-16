@@ -41,12 +41,12 @@ class Connection implements I\Connection, I\Queryable
         return $this->driver->connected();
     }
 
-    public function query($query, ?array $values = null, $fetch = null)
+    public function query(Query\I\Query|string $query, ?array $values = null, $fetch = null): mixed
     {
         return $this->driver->query($query, $values, $fetch);
     }
 
-    public function execute($query, ?array $values = null)
+    public function execute(Query\I\Query|string $query, ?array $values = null): mixed
     {
         return $this->driver->execute($query, $values);
     }

@@ -46,7 +46,7 @@ class JoinableTable extends Joinable implements I\JoinableTable
         return Select::createFrom($this)->group(...$columns);
     }
 
-    public function value($column = null)
+    public function value($column = null): mixed
     {
         return Select::createFrom($this)->value($column);
     }

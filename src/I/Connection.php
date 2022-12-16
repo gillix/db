@@ -12,7 +12,7 @@ use glx\DB\Query\I\Query;
 interface Connection
 {
     /**
-     * @return mixed
+     * @return void
      * @throws ConnectionFailed
      */
     public function connect(): void;
