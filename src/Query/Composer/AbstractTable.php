@@ -39,4 +39,10 @@ abstract class AbstractTable extends AbstractMappingElement implements TableMapp
     {
         return self::qualify($field);
     }
+
+    public function __toString(): string
+    {
+        $alias = $this->alias();
+        return parent::__toString() . ($alias ? ".{$alias}" : '');
+    }
 }
