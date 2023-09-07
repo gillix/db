@@ -42,4 +42,9 @@ class Join extends NamedExtender
             );
         }
     }
+
+    public function __toString(): string
+    {
+        return parent::__toString() . ($this->alias ? ".{$this->alias}" : '');
+    }
 }
