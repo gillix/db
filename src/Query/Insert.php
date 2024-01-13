@@ -20,9 +20,10 @@ class Insert extends Builder implements I\Insert
     {
         if ($values instanceof Select) {
             $this->units['values'] = $values;
-        }
-        foreach ($values as $field => $value) {
-            $this->set($field, $value);
+        } elseif (is_array($values)) {
+            foreach ($values as $field => $value) {
+                $this->set($field, $value);
+            }
         }
 
         return $this;
