@@ -51,21 +51,21 @@ class Table extends Builder implements I\Table
 
     public function join($table, $on = null, string $type = 'inner'): JoinableTable
     {
-        return call_user_func([JoinableTable::createFrom($this), __METHOD__], $table, $on, $type);
+        return call_user_func([JoinableTable::createFrom($this), __FUNCTION__], $table, $on, $type);
     }
 
     public function left($table, $on = null): JoinableTable
     {
-        return call_user_func([JoinableTable::createFrom($this), __METHOD__], $table, $on);
+        return call_user_func([JoinableTable::createFrom($this), __FUNCTION__], $table, $on);
     }
 
     public function right($table, $on = null): JoinableTable
     {
-        return call_user_func([JoinableTable::createFrom($this), __METHOD__], $table, $on);
+        return call_user_func([JoinableTable::createFrom($this), __FUNCTION__], $table, $on);
     }
 
     public function cross($table, $on = null): JoinableTable
     {
-        return call_user_func([JoinableTable::createFrom($this), __METHOD__], $table, $on);
+        return call_user_func([JoinableTable::createFrom($this), __FUNCTION__], $table, $on);
     }
 }
