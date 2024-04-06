@@ -91,18 +91,33 @@ abstract class pdoDriver implements I\Driver
         if ($query instanceof Query) {
             [$query, $values] = $query->compile();
         }
-        try {
-            $result = $execute($query, $values);
-        } catch (PDOException $e) {
-            $this->logger->error($e->getMessage(), [
-                'query' => $query,
-                'values' => $values,
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTrace()
-            ]);
-            throw new QueryPerformingFailed($query, $values, $e->getMessage(), 0, $e);
+
+        while (true) {
+            $retries = 0;
+            try {
+                $result = $execute($query, $values);
+                break;
+            } catch (PDOException $e) {
+                if (
+                    ($this->options['reconnect'] ?? true)
+                    && $e->getCode() === 2006
+                    && $retries++ < ($this->options['retries'] ?? 1)
+                ) {
+                    $this->connect(true);
+                    continue;
+                }
+
+                $this->logger->error($e->getMessage(), [
+                    'query' => $query,
+                    'values' => $values,
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTrace()
+                ]);
+                throw new QueryPerformingFailed($query, $values, $e->getMessage(), 0, $e);
+            }
         }
+
         $this->logger->debug((string)$query, compact('values'));
 
         return $result;
